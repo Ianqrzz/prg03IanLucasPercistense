@@ -14,14 +14,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class CursoEditar extends javax.swing.JDialog {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CursoEditar.class.getName());
 
     @Autowired
-    private CursoIController cursoController;
+    private final CursoIController cursoController;
     private Curso cursoParaEditar;
 
     /**
      * Creates new form CursoEditar
+     * @param controller
      */
     @Autowired
     public CursoEditar(CursoIController controller) {

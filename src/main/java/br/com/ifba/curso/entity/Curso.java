@@ -15,10 +15,7 @@ import java.io.Serializable;
 public class Curso extends PersistenceEntity implements Serializable {
 
 
-    /**
-     * Campo 'nome'. O JPA irá criar uma coluna chamada 'nome' no banco. Por
-     * padrão, será um VARCHAR(255).
-     */
+    
     private String nome;
 
     /**

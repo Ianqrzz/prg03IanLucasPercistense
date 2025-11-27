@@ -29,6 +29,8 @@ public class CursoListar extends javax.swing.JFrame {
     private CursoEditar telaEditar;
 
     private TableRowSorter<DefaultTableModel> sorter;
+    
+    
 
     @Autowired
     public CursoListar(CursoIController cursoController) {
@@ -37,8 +39,22 @@ public class CursoListar extends javax.swing.JFrame {
 
         // Configuração do Filtro e Tabela
         DefaultTableModel model = (DefaultTableModel) tblCurso.getModel();
+        model.setColumnIdentifiers(new String[] {
+            "Nome", "Código", "ID" 
+        });
         sorter = new TableRowSorter<>(model);
         tblCurso.setRowSorter(sorter);
+        // Pega a coluna 2
+        javax.swing.table.TableColumn colunaId = tblCurso.getColumnModel().getColumn(2);
+
+// Define todas as larguras como 0 para ela desaparecer
+        colunaId.setMinWidth(1);
+        colunaId.setMaxWidth(1);
+        colunaId.setWidth(1);
+        colunaId.setPreferredWidth(1);
+
+// Opcional: Impede que o usuário redimensione ela puxando com o mouse
+        colunaId.setResizable(false);
 
         btnEditar.setEnabled(false);
         btnExcluir.setEnabled(false);
@@ -61,6 +77,7 @@ public class CursoListar extends javax.swing.JFrame {
         btnEditar.setEnabled(false);
         btnExcluir.setEnabled(false);
 
+        
        
         
         try {
@@ -70,7 +87,8 @@ public class CursoListar extends javax.swing.JFrame {
                 for (Curso curso : cursos) {
                     model.addRow(new Object[]{
                         curso.getNome(), 
-                        curso.getCodigoCurso() 
+                        curso.getCodigoCurso(),
+                        curso.getId()
                     });
                 }
             }
@@ -91,11 +109,11 @@ public class CursoListar extends javax.swing.JFrame {
         if (selectedRow == -1) return;
 
         int modelRow = tblCurso.convertRowIndexToModel(selectedRow);
-        String codigoCurso = (String) tblCurso.getModel().getValueAt(modelRow, 1);
+        Long id = (Long) tblCurso.getModel().getValueAt(modelRow, 2);
 
         try {
             
-             Curso cursoParaEditar = cursoController.findByCodigo(codigoCurso); 
+             Curso cursoParaEditar = cursoController.findById(id); 
             
             if(cursoParaEditar != null){
                 
@@ -117,18 +135,16 @@ public class CursoListar extends javax.swing.JFrame {
         if (selectedRow == -1) return;
 
         int modelRow = tblCurso.convertRowIndexToModel(selectedRow);
-        String codigoCurso = (String) tblCurso.getModel().getValueAt(modelRow, 1);
-        String nomeCurso = (String) tblCurso.getModel().getValueAt(modelRow, 0);
+        Long id = (Long)tblCurso.getModel().getValueAt(modelRow,2);
+        String nomeCurso = (String) tblCurso.getModel().getValueAt(modelRow, 1);
 
         int confirm = JOptionPane.showConfirmDialog(this, 
                 "Excluir: " + nomeCurso + "?", "Confirmar", JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
             try {
-               
                 
-                
-                Curso curso = cursoController.findByCodigo(codigoCurso);
+                Curso curso = cursoController.findById(id);
                 
                 if(curso != null){
                     cursoController.delete(curso);
@@ -174,7 +190,7 @@ public class CursoListar extends javax.swing.JFrame {
             new Object [][] {
             },
             new String [] {
-                "Nome", "Codigo do Curso"
+                "Nome","Codigo do curso"
             }
         ));
         jScrollPane2.setViewportView(tblCurso);

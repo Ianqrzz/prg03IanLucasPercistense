@@ -4,10 +4,9 @@
  */
 package br.com.ifba.curso.service;
 
-import br.com.ifba.curso.dao.CursoDao;
-import br.com.ifba.curso.dao.CursoIDao;
 import br.com.ifba.curso.entity.Curso;
 import br.com.ifba.curso.infrastructure.util.StringUtil;
+import br.com.ifba.curso.repository.CursoRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +18,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class CursoService implements CursoIService {
     
+    //agora cursoSerivce chama CursoRepository ao inves de CursoDao
     @Autowired
-    private CursoIDao cursoDao;
+    private CursoRepository cursoRepository;
     
      @Override
     public Curso save(Curso curso){
@@ -37,7 +37,7 @@ public class CursoService implements CursoIService {
         }
         
         
-            return cursoDao.save(curso);
+            return cursoRepository.save(curso);
         
     }
     
@@ -48,7 +48,7 @@ public class CursoService implements CursoIService {
         }else if(curso.getId() == null){
             throw new RuntimeException("Curso não existente no banco de dados");
         }else{
-            cursoDao.delete(curso);
+            cursoRepository.delete(curso);
         }
     }
     
@@ -57,23 +57,21 @@ public class CursoService implements CursoIService {
         if(curso == null){
             throw new RuntimeException("Dados do " + "curso não preenchidos.");
         }else{
-            return cursoDao.update(curso);
+            return cursoRepository.save(curso);
         }
     }
     
     @Override
     public List<Curso> findAll() throws RuntimeException{
-       return cursoDao.findAll();
+       return cursoRepository.findAll();
     }
     
     @Override
-    public Curso findById(Long id) throws RuntimeException{
-        return cursoDao.findById(id);
+    public Curso findById(Long Id){
+        return cursoRepository.findById(Id).orElse(null);
     }
+    //metodo findById retorna um optional para evitar NullPointerException,então mudamos esse metodo
     
-    @Override
-    public Curso findByCodigo(String codigo) throws RuntimeException{
-        return cursoDao.findByCodigo(codigo);
-    }
+    
 }
 

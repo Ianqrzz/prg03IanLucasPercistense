@@ -6,7 +6,6 @@ package br.com.ifba.curso.controller;
 
 import br.com.ifba.curso.entity.Curso;
 import br.com.ifba.curso.service.CursoIService;
-import br.com.ifba.curso.service.CursoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +19,7 @@ public class CursoController implements CursoIController{
     
     @Autowired
     private CursoIService cursoIService;
+    
     
     @Override
     public List<Curso> findAll() {
@@ -46,8 +46,4 @@ public class CursoController implements CursoIController{
         return cursoIService.findById(id);
     }
     
-    @Override
-    public Curso findByCodigo(String codigo) {
-        return cursoIService.findByCodigo(codigo);
-    }
 }
