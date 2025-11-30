@@ -8,10 +8,22 @@ import br.com.ifba.curso.infrastructure.entity.PersistenceEntity;
 import jakarta.persistence.Entity; 
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-
+/**
+ *
+ * @author ianep
+ */
 @Entity 
 @Table( name = "cursos")
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Curso extends PersistenceEntity implements Serializable {
 
 
@@ -31,39 +43,7 @@ public class Curso extends PersistenceEntity implements Serializable {
      */
     private boolean ativo;
 
-    /*
-     * GETTERS E SETTERS
-     *
-     * O JPA EXIGE que a classe de entidade tenha getters e setters públicos
-     * (ou um construtor padrão) para que ele possa "hidratar" (preencher)
-     * o objeto com dados do banco e ler dados do objeto para salvar no banco.
-     *
-     * 'getId' e 'setId' são usados para o ID.
-     */
- 
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCodigoCurso() {
-        return codigoCurso;
-    }
-
-    public void setCodigoCurso(String codigoCurso) {
-        this.codigoCurso = codigoCurso;
-    }
-
-    public boolean isAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
-    }
+    
 
 }

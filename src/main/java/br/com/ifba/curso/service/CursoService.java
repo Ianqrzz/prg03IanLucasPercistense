@@ -8,7 +8,8 @@ import br.com.ifba.curso.entity.Curso;
 import br.com.ifba.curso.infrastructure.util.StringUtil;
 import br.com.ifba.curso.repository.CursoRepository;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,8 +20,15 @@ import org.springframework.stereotype.Service;
 public class CursoService implements CursoIService {
     
     //agora cursoSerivce chama CursoRepository ao inves de CursoDao
-    @Autowired
-    private CursoRepository cursoRepository;
+    
+    private final CursoRepository cursoRepository;
+    
+    public CursoService(CursoRepository cursoRepository){
+        this.cursoRepository = cursoRepository;
+    }
+    
+    private static final Logger log = LoggerFactory.
+            getLogger(CursoService.class);
     
      @Override
     public Curso save(Curso curso){
@@ -36,7 +44,7 @@ public class CursoService implements CursoIService {
             throw new RuntimeException("Curso " + "já existente no banco de dados.");
         }
         
-        
+            log.info("Salvando o Objeto Curso");
             return cursoRepository.save(curso);
         
     }
@@ -48,6 +56,7 @@ public class CursoService implements CursoIService {
         }else if(curso.getId() == null){
             throw new RuntimeException("Curso não existente no banco de dados");
         }else{
+            log.info("Excluindo o Objeto Curso");
             cursoRepository.delete(curso);
         }
     }
@@ -57,6 +66,7 @@ public class CursoService implements CursoIService {
         if(curso == null){
             throw new RuntimeException("Dados do " + "curso não preenchidos.");
         }else{
+            log.info("Editando o Objeto Curso");
             return cursoRepository.save(curso);
         }
     }
